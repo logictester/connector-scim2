@@ -135,19 +135,7 @@
             <gen36:pagination>true</gen36:pagination>
             <gen36:serviceUrl>https://api.slack.com/scim/v2</gen36:serviceUrl>
             <gen36:duplicateErrorReturnsId>true</gen36:duplicateErrorReturnsId>
-            <gen36:token>
-                <t:encryptedData>
-                    <t:encryptionMethod>
-                        <t:algorithm>http://www.w3.org/2001/04/xmlenc#aes256-cbc</t:algorithm>
-                    </t:encryptionMethod>
-                    <t:keyInfo>
-                        <t:keyName>QDjf/4g9sHo3L4mFUA2CmNev3eU=</t:keyName>
-                    </t:keyInfo>
-                    <t:cipherData>
-                        <t:cipherValue>ynuaU9xblwqIG7/323m/q0UNnHBE1y8CgC2oaWiqzhfEYk606NwYxDOWkqvKhv3dpZrZ8/ltfmOH+JYnFUNHV/fsoKaM1MD3wLTk9jIS6k/YNjKv21J8SHCckCysXxbO</t:cipherValue>
-                    </t:cipherData>
-                </t:encryptedData>
-            </gen36:token>
+            <gen36:token>___Put_Bearer_Token_Here___</gen36:token>
             <gen36:enableStandardSchema>false</gen36:enableStandardSchema>
             <gen36:enableEnterpriseUser>true</gen36:enableEnterpriseUser>
             <gen36:enableAWSSchema>false</gen36:enableAWSSchema>
