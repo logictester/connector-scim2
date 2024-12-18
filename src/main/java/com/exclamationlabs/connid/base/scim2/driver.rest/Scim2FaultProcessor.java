@@ -76,6 +76,7 @@ public class Scim2FaultProcessor implements RestFaultProcessor {
       {
         return;
       }else if (httpStatus == HTTP_TOO_MANY_REQUESTS){
+        Logger.info(this, "Rate limit exceeded. Response: " + rawResponse);
         try {
           Thread.sleep(1000);
         } catch (InterruptedException e) {
