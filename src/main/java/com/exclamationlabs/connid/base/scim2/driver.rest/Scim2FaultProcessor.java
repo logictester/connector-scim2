@@ -80,7 +80,7 @@ public class Scim2FaultProcessor implements RestFaultProcessor {
         try {
           Thread.sleep(1000);
         } catch (InterruptedException e) {
-          throw new DriverRenewableTokenExpiredException("Rate limit exceeded. Please try again later.");
+          Logger.error(this, "Rate limit exceeded. Please try again later.", e);
         }
         return;
       }
