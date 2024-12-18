@@ -72,8 +72,16 @@ public class Scim2FaultProcessor implements RestFaultProcessor {
       }
     }
     else if ( httpStatus != null ) {
-      if ( httpStatus == HTTP_NOT_IMPLEMENTED ||  httpStatus == HTTP_NOT_FOUND)
+      if ( httpStatus == HTTP_NOT_IMPLEMENTED ||  httpStatus == HTTP_NOT_FOUND )
       {
+        return;
+      }else if (httpStatus == HTTP_TOO_MANY_REQUESTS){
+        Logger.info(this, "Rate limit exceeded. Response: " + rawResponse);
+        try {
+          Thread.sleep(1000);
+        } catch (InterruptedException e) {
+          Logger.error(this, "Rate limit exceeded. Please try again later.", e);
+        }
         return;
       }
     }

@@ -11,4 +11,5 @@ public interface ErrorResponseCode
     int HTTP_NOT_IMPLEMENTED = 501;
     int HTTP_BAD_GATEWAY = 502;
     int HTTP_SERVICE_UNAVAILABLE = 503;
+    int HTTP_TOO_MANY_REQUESTS = 429;
 }

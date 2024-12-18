@@ -24,6 +24,7 @@ public class Scim2AWSApiIntegrationTest
   private static String generatedUserId;
   private static String generatedGroupId;
   private static final String existingGroupName = "ProvisionTest";
+  private static final String existingGroupId = "1488b4d8-0001-7035-d278-04af66e2a3a8";
   private static final String existingUserName = "gwashington";
   private static final String idGeorgeWashington = "94184408-40a1-706d-eff0-769a058c58a0";
   private static final String idThomasJefferson  = "U07GJHF2BGD";
@@ -189,6 +190,48 @@ public class Scim2AWSApiIntegrationTest
   }
 
   @Test
+  @Order(151)
+  public void testUserGetById() {
+    ToListResultsHandler listHandler = new ToListResultsHandler();
+    ObjectClass objClazz = new ObjectClass("Scim2User");
+    Attribute id =
+            new AttributeBuilder().setName(Uid.NAME).addValue(idGeorgeWashington).build();
+
+    getConnectorFacade()
+            .search(
+                    objClazz,
+                    new EqualsFilter(id),
+                    listHandler,
+                    new OperationOptionsBuilder().build());
+    List<ConnectorObject> users = listHandler.getObjects();
+    assertEquals(1, users.size());
+    String userId = users.get(0).getAttributeByName(Uid.NAME).getValue().get(0).toString();
+    assertTrue(StringUtils.isNotBlank(userId));
+    assertEquals(idGeorgeWashington, userId);
+  }
+
+  @Test
+  @Order(152)
+  public void testUserGetByName() {
+    ToListResultsHandler listHandler = new ToListResultsHandler();
+    ObjectClass objClazz = new ObjectClass("Scim2User");
+    Attribute id =
+            new AttributeBuilder().setName(Name.NAME).addValue(existingUserName).build();
+
+    getConnectorFacade()
+            .search(
+                    objClazz,
+                    new EqualsFilter(id),
+                    listHandler,
+                    new OperationOptionsBuilder().build());
+    List<ConnectorObject> users = listHandler.getObjects();
+    assertEquals(1, users.size());
+    String userId = users.get(0).getAttributeByName(Name.NAME).getValue().get(0).toString();
+    assertTrue(StringUtils.isNotBlank(userId));
+    assertEquals(existingUserName, userId);
+  }
+
+  @Test
   @Order(200)
   public void testGroupList() {
     ToListResultsHandler listHandler = new ToListResultsHandler();
@@ -227,6 +270,22 @@ public class Scim2AWSApiIntegrationTest
     assertNotNull(groups);
     assertEquals(1, groups.size());
     String groupName = groups.get(0).getAttributeByName(Name.NAME).getValue().get(0).toString();
+  }
+
+  @Test
+  @Order(221)
+  public void testGroupGetById()
+  {
+    ObjectClass objGroup = new ObjectClass("Scim2Group");
+    OperationOptions options = new OperationOptionsBuilder().build();
+    ToListResultsHandler listHandler = new ToListResultsHandler();
+    Attribute name =
+            new AttributeBuilder().setName(Uid.NAME).addValue(existingGroupId).build();
+    getConnectorFacade().search(objGroup,new EqualsFilter(name),listHandler, options);
+    List<ConnectorObject> groups = listHandler.getObjects();
+    assertNotNull(groups);
+    assertEquals(1, groups.size());
+    String groupName = groups.get(0).getAttributeByName(Uid.NAME).getValue().get(0).toString();
   }
 
   @Test
