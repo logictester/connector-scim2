@@ -526,6 +526,7 @@
                 <outbound>
                     <name>name</name>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
                         <path>$focus/name</path>
                     </source>
@@ -544,6 +545,7 @@
                 <outbound>
                     <name>firstName</name>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
                         <path>$focus/givenName</path>
                     </source>
@@ -559,11 +561,13 @@
             <attribute>
                 <ref>ri:name_middleName</ref>
                 <outbound>
+                    <name>middleName</name>
                     <source>
                         <path>additionalName</path>
                     </source>
                 </outbound>
                 <inbound>
+                    <name>middleName</name>
                     <strength>weak</strength>
                     <target>
                         <path>additionalName</path>
@@ -573,6 +577,7 @@
             <attribute>
                 <ref>ri:name_familyName</ref>
                 <outbound>
+                    <name>lastName</name>
                     <source>
                         <path>$focus/familyName</path>
                     </source>
@@ -588,7 +593,9 @@
             <attribute>
                 <ref>ri:name_honorificPrefix</ref>
                 <outbound>
+                    <name>honorificPrefix</name>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
                         <path>$focus/honorificPrefix</path>
                     </source>
@@ -604,7 +611,9 @@
             <attribute>
                 <ref>ri:name_honorificSuffix</ref>
                 <outbound>
+                    <name>honorificSuffix</name>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
                         <path>$focus/honorificSuffix</path>
                     </source>
@@ -620,6 +629,7 @@
             <attribute>
                 <ref>ri:nickName</ref>
                 <outbound>
+                    <name>nickName</name>
                     <source>
                         <path>nickName</path>
                     </source>
@@ -633,9 +643,49 @@
                 </inbound>
             </attribute>
             <attribute>
+                <ref>ri:emails</ref>
+                <outbound>
+                    <name>primaryEmail</name>
+                    <strength>strong</strength>
+                    <authoritative>false</authoritative>
+                    <source>
+                        <path>emailAddress</path>
+                    </source>
+                    <expression>
+                        <script>
+                            <code>
+                                import groovy.json.JsonOutput
+
+                                // IAM Identity Center does not support multiple values in multi-value attributes
+                                // (such as emails, addresses, phoneNumbers). Only single values are permitted.
+                                return JsonOutput.toJson([value: emailAddress, type: "work", primary: true])
+                            </code>
+                        </script>
+                    </expression>
+                </outbound>
+                <inbound>
+                    <name>primaryEmail</name>
+                    <strength>weak</strength>
+                    <expression>
+                        <script>
+                            <code>
+                                map = new HashMap()
+                                map.put('input', input)
+                                return provision.execute('valueParser', map)
+                            </code>
+                        </script>
+                    </expression>
+                    <target>
+                        <path>emailAddress</path>
+                    </target>
+                </inbound>
+            </attribute>
+            <attribute>
                 <ref>ri:timezone</ref>
                 <outbound>
+                    <name>timezone</name>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
                         <path>timezone</path>
                     </source>
@@ -651,12 +701,15 @@
             <attribute>
                 <ref>ri:preferredLanguage</ref>
                 <outbound>
+                    <name>preferredLanguage</name>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
                         <path>$focus/preferredLanguage</path>
                     </source>
                 </outbound>
                 <inbound>
+                    <name>preferredLanguage</name>
                     <strength>weak</strength>
                     <target>
                         <path>preferredLanguage</path>
@@ -666,27 +719,26 @@
             <attribute>
                 <ref>ri:displayName</ref>
                 <outbound>
+                    <name>displayName</name>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
-                        <path>$focus/fullName</path>
+                        <path>$focus/name</path>
                     </source>
                 </outbound>
-                <inbound>
-                    <strength>weak</strength>
-                    <target>
-                        <path>fullName</path>
-                    </target>
-                </inbound>
             </attribute>
             <attribute>
                 <ref>ri:costCenter</ref>
                 <outbound>
+                    <name>costCenter</name>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
                         <path>$focus/costCenter</path>
                     </source>
                 </outbound>
                 <inbound>
+                    <name>costCenter</name>
                     <strength>weak</strength>
                     <target>
                         <path>costCenter</path>
@@ -696,12 +748,15 @@
             <attribute>
                 <ref>ri:title</ref>
                 <outbound>
+                    <name>title</name>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
                         <path>$focus/title</path>
                     </source>
                 </outbound>
                 <inbound>
+                    <name>title</name>
                     <strength>weak</strength>
                     <target>
                         <path>title</path>
@@ -711,12 +766,15 @@
             <attribute>
                 <ref>ri:locale</ref>
                 <outbound>
+                    <name>locale</name>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
                         <path>$focus/locale</path>
                     </source>
                 </outbound>
                 <inbound>
+                    <name>locale</name>
                     <strength>weak</strength>
                     <target>
                         <path>locale</path>
@@ -724,18 +782,10 @@
                 </inbound>
             </attribute>
             <attribute>
-                <ref>ri:photos</ref>
-                <outbound>
-                    <strength>strong</strength>
-                    <source>
-                        <path>$focus/jpegPhoto</path>
-                    </source>
-                </outbound>
-            </attribute>
-            <attribute>
                 <ref>ri:addresses</ref>
                 <outbound>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <source>
                         <path>$focus/locality</path>
                     </source>
@@ -757,13 +807,186 @@
                         </script>
                     </condition>
                 </outbound>
+                <inbound>
+                    <name>locality</name>
+                    <strength>weak</strength>
+                    <expression>
+                        <script>
+                            <code>
+                                map = new HashMap()
+                                map.put("input", input)
+                                map.put("item", "locality")
+
+                                return provision.execute("addressParser", map)
+                            </code>
+                        </script>
+                    </expression>
+                    <target>
+                        <path>locality</path>
+                    </target>
+                </inbound>
+                <inbound>
+                    <name>streetAddress</name>
+                    <strength>weak</strength>
+                    <expression>
+                        <script>
+                            <code>
+                                map = new HashMap()
+                                map.put("input", input)
+                                map.put("item", "streetAddress")
+
+                                return provision.execute("addressParser", map)
+                            </code>
+                        </script>
+                    </expression>
+                    <target>
+                        <path>extension/streetAddress</path>
+                    </target>
+                </inbound>
+                <inbound>
+                    <name>postalCode</name>
+                    <strength>weak</strength>
+                    <expression>
+                        <script>
+                            <code>
+                                map = new HashMap()
+                                map.put("input", input)
+                                map.put("item", "postalCode")
+
+                                return provision.execute("addressParser", map)
+                            </code>
+                        </script>
+                    </expression>
+                    <target>
+                        <path>extension/postalCode</path>
+                    </target>
+                </inbound>
+                <inbound>
+                    <name>country</name>
+                    <strength>weak</strength>
+                    <expression>
+                        <script>
+                            <code>
+                                map = new HashMap()
+                                map.put("input", input)
+                                map.put("item", "country")
+
+                                return provision.execute("addressParser", map)
+                            </code>
+                        </script>
+                    </expression>
+                    <target>
+                        <path>extension/country</path>
+                    </target>
+                </inbound>
+                <inbound>
+                    <name>state</name>
+                    <strength>weak</strength>
+                    <expression>
+                        <script>
+                            <code>
+                                map = new HashMap()
+                                map.put("input", input)
+                                map.put("item", "region")
+
+                                return provision.execute("addressParser", map)
+                            </code>
+                        </script>
+                    </expression>
+                    <target>
+                        <path>extension/state</path>
+                    </target>
+                </inbound>
             </attribute>
             <attribute>
                 <ref>ri:employeeNumber</ref>
+                <outbound>
+                    <name>employeeNumber</name>
+                    <strength>strong</strength>
+                    <authoritative>false</authoritative>
+                    <source>
+                        <path>employeeNumber</path>
+                    </source>
+                </outbound>
                 <inbound>
+                    <name>employeeNumber</name>
                     <strength>weak</strength>
                     <target>
                         <path>employeeNumber</path>
+                    </target>
+                </inbound>
+            </attribute>
+            <attribute>
+                <ref>ri:groups</ref>
+                <inbound>
+                    <strength>strong</strength>
+                    <authoritative>false</authoritative>
+                    <expression>
+                        <script>
+                            <code>
+                                inputMap = new HashMap()
+                                inputMap.put("input", input)
+
+                                return provision.execute("valueParser", inputMap)
+                            </code>
+                        </script>
+                    </expression>
+                    <target>
+                        <path>organization</path>
+                    </target>
+                </inbound>
+            </attribute>
+            <attribute>
+                <ref>ri:externalId</ref>
+                <outbound>
+                    <name>externalId</name>
+                    <strength>strong</strength>
+                    <authoritative>false</authoritative>
+                    <source>
+                        <path>employeeNumber</path>
+                    </source>
+                </outbound>
+            </attribute>
+            <attribute>
+                <ref>ri:profileUrl</ref>
+                <inbound>
+                    <name>profileUrl</name>
+                    <strength>strong</strength>
+                    <authoritative>false</authoritative>
+                    <target>
+                        <path>extension/profileUrl</path>
+                    </target>
+                </inbound>
+            </attribute>
+            <attribute>
+                <ref>ri:division</ref>
+                <inbound>
+                    <name>division</name>
+                    <strength>strong</strength>
+                    <authoritative>false</authoritative>
+                    <target>
+                        <path>extension/awsDivision</path>
+                    </target>
+                </inbound>
+            </attribute>
+            <attribute>
+                <ref>ri:organization</ref>
+                <inbound>
+                    <name>organization</name>
+                    <strength>strong</strength>
+                    <target>
+                        <path>extension/awsOrganization</path>
+                    </target>
+                </inbound>
+            </attribute>
+            <attribute>
+                <ref>ri:department</ref>
+                <inbound>
+                    <name>department</name>
+                    <strength>strong</strength>
+                    <authoritative>false</authoritative>
+                    <target>
+                        <path>extension/awsDepartment</path>
                     </target>
                 </inbound>
             </attribute>
@@ -779,6 +1002,16 @@
                     <lifecycleState>active</lifecycleState>
                 </disableInsteadOfDelete>
             </activation>
+            <credentials>
+                <password>
+                    <outbound>
+                        <name>password</name>
+                        <expression>
+                            <asIs/>
+                        </expression>
+                    </outbound>
+                </password>
+            </credentials>
             <configuredCapabilities xmlns:cap="http://midpoint.evolveum.com/xml/ns/public/resource/capabilities-3">
                 <cap:activation>
                     <cap:status>
@@ -837,6 +1070,7 @@
                 <ref>ri:displayName</ref>
                 <inbound>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <target>
                         <path>name</path>
                     </target>
@@ -847,8 +1081,29 @@
                 <ref>ri:id</ref>
                 <inbound>
                     <strength>strong</strength>
+                    <authoritative>false</authoritative>
                     <target>
                         <path>identifier</path>
+                    </target>
+                </inbound>
+            </attribute>
+            <attribute>
+                <ref>ri:members</ref>
+                <inbound>
+                    <strength>strong</strength>
+                    <authoritative>false</authoritative>
+                    <expression>
+                        <script>
+                            <code>
+                                inputMap = new HashMap()
+                                inputMap.put("input", input)
+
+                                return provision.execute("parser", inputMap)
+                            </code>
+                        </script>
+                    </expression>
+                    <target>
+                        <path>extension/group_members</path>
                     </target>
                 </inbound>
             </attribute>
@@ -892,10 +1147,6 @@
         </objectType>
     </schemaHandling>
     <capabilities>
-        <cachingMetadata>
-            <retrievalTimestamp>2024-12-21T03:18:20.449Z</retrievalTimestamp>
-            <serialNumber>3fc61107e31d65b0-9cdbe77706674d05</serialNumber>
-        </cachingMetadata>
         <native xmlns:cap="http://midpoint.evolveum.com/xml/ns/public/resource/capabilities-3">
             <cap:schema/>
             <cap:discoverConfiguration/>
@@ -928,14 +1179,14 @@
                             <cap:objectClass>ri:Scim2User</cap:objectClass>
                         </cap:delineation>
                         <cap:primaryBindingAttributeRef>ri:id</cap:primaryBindingAttributeRef>
-                        <cap:secondaryBindingAttributeRef>ri:groups</cap:secondaryBindingAttributeRef>
+                        <cap:secondaryBindingAttributeRef>$focus/organization</cap:secondaryBindingAttributeRef>
                         <cap:localItemName>ri:group</cap:localItemName>
                     </cap:subject>
                     <cap:object>
                         <cap:delineation>
                             <cap:objectClass>ri:Scim2Group</cap:objectClass>
                         </cap:delineation>
-                        <cap:primaryBindingAttributeRef>ri:members</cap:primaryBindingAttributeRef>
+                        <cap:primaryBindingAttributeRef>$focus/extension/group_members</cap:primaryBindingAttributeRef>
                         <cap:secondaryBindingAttributeRef>ri:id</cap:secondaryBindingAttributeRef>
                     </cap:object>
                     <cap:direction>objectToSubject</cap:direction>
