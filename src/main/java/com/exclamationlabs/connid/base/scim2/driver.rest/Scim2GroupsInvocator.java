@@ -310,6 +310,20 @@ public class Scim2GroupsInvocator implements DriverInvocator<Scim2Driver, Scim2G
     } catch (Exception e) {
       e.printStackTrace();
     }
+
+    if (groupMaps != null) {
+      for (Map<String, String> groupMap : groupMaps) {
+        if (groupMap != null) {
+          LOG.info("getUsersForGroup :: Group Map: ");
+          for (Map.Entry<String, String> entry : groupMap.entrySet()) {
+            LOG.info("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+          }
+        }
+      }
+    } else {
+      LOG.info("getUsersForGroup :: Group Maps set is null");
+    }
+
     return groupMaps;
   }
 
