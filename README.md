@@ -1,5 +1,6 @@
 # Connector Scim2
 
+# 1	Overview
 ConnID Connector to support [System for Cross-domain Identity Management (SCIM2)](https://www.rfc-editor.org/rfc/rfc7642.html) 
 API for Identify and Access Management (IAM) of Remote Services
 
@@ -10,7 +11,18 @@ The software leverages the Connector Base Framework located at https://github.co
 
 This software is Copyright 2024 Exclamation Graphics. Licensed under the Apache License, Version 2.0.
 
+# 2	Features
 
+The Scim2 Connector has the following features:
+
+* The connector configuration is specified in the user interface.
+* The connector supports Users and Groups.
+* A User can be associated with one or more Groups.
+* The connector can Create, Update, Delete, and Search Users.
+* The connector can Create, Update, Delete, and Search Groups.
+* The connector supports automatic pagination for User and Group objects.
+* The connector supports deep import and deep get operations.
+* The connector supports standard, enterprise, AWS, Slack, and dynamic schemas.
 
 # Connector Configuration
 

@@ -464,6 +464,20 @@ public class Scim2UsersInvocator implements DriverInvocator<Scim2Driver, Scim2Us
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        if (groupMaps != null) {
+            for (Map<String, String> groupMap : groupMaps) {
+                if (groupMap != null) {
+                    LOG.info("getGroupsForUser :: Group Map: ");
+                    for (Map.Entry<String, String> entry : groupMap.entrySet()) {
+                        LOG.info("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+                    }
+                }
+            }
+        } else {
+            LOG.info("getGroupsForUser :: Group Maps set is null");
+        }
+
         return groupMaps;
     }
 
