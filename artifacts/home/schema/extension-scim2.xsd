@@ -93,6 +93,16 @@
                     <xsd:documentation>State where the user is located</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+			<xsd:element name="country" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <a:indexed>true</a:indexed>
+                        <a:displayName>Country</a:displayName>
+                        <a:displayOrder>1505</a:displayOrder>
+                        <a:help>Work Country</a:help>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="postalCode" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
                     <xsd:appinfo>
@@ -111,6 +121,46 @@
                         <a:displayOrder>148</a:displayOrder>
                     </xsd:appinfo>
                     <xsd:documentation>User's Personal Email Address</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+			<xsd:element name="awsDivision" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <a:indexed>true</a:indexed>
+                        <a:displayName>AWS Division</a:displayName>
+                        <a:displayOrder>1507</a:displayOrder>
+                        <a:help>User's division on AWS</a:help>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="awsOrganization" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <a:indexed>true</a:indexed>
+                        <a:displayName>AWS Organization</a:displayName>
+                        <a:displayOrder>1507</a:displayOrder>
+                        <a:help>User's organization on AWS</a:help>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="awsDepartment" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <a:indexed>true</a:indexed>
+                        <a:displayName>AWS Department</a:displayName>
+                        <a:displayOrder>1507</a:displayOrder>
+                        <a:help>User's department on AWS</a:help>
+                    </xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+			<xsd:element name="awsGroups" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <a:indexed>true</a:indexed>
+                        <a:displayName>AWS Groups</a:displayName>
+                        <a:displayOrder>1507</a:displayOrder>
+                        <a:help>User's Group IDs on AWS</a:help>
+                    </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
