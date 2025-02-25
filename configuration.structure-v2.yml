@@ -1,4 +1,5 @@
 ---
+# This yml version is not used.  It describes possible configuration options for dynamic schema support.
 name: 'Scim2'
 configurationClass:
   name: 'Scim2Configuration'

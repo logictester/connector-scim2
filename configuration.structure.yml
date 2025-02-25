@@ -44,11 +44,13 @@ custom:
         help: 'Use the Resource Type and/or the Schema defined '
       usersEndpointUrl:
         type: string
+        default: '/Users'
         order: 3060
         display: 'Users Endpoint URL'
         help: 'Discovered from the resource type or entered manually'
       groupsEndpointUrl:
         type: string
+        default: '/Groups'
         order: 3070
         display: 'Groups Endpoint URL'
         help: 'Discovered from the resource type or entered manually'

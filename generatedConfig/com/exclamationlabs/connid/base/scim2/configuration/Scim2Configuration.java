@@ -51,7 +51,7 @@ public class Scim2Configuration implements ConnectorConfiguration, RestConfigura
 
     @NotBlank(message="groupsEndpointUrl cannot be blank")
     @ConfigurationInfo(path="custom.groupsEndpointUrl")
-    private String groupsEndpointUrl;
+    private String groupsEndpointUrl = "/Groups";
 
     @NotBlank(message="serviceUrl cannot be blank")
     @ConfigurationInfo(path="service.serviceUrl")
@@ -66,7 +66,7 @@ public class Scim2Configuration implements ConnectorConfiguration, RestConfigura
 
     @NotBlank(message="usersEndpointUrl cannot be blank")
     @ConfigurationInfo(path="custom.usersEndpointUrl")
-    private String usersEndpointUrl;
+    private String usersEndpointUrl = "/Users";
 
     @NotNull(message="enableStandardSchema cannot be null")
     @ConfigurationInfo(path="custom.enableStandardSchema")
