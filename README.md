@@ -21,7 +21,6 @@ The Scim2 Connector has the following features:
 * The connector can Create, Update, Delete, and Search Users.
 * The connector can Create, Update, Delete, and Search Groups.
 * The connector supports automatic pagination for User and Group objects.
-* The connector supports deep import and deep get operations.
 * The connector currently supports standard, enterprise, AWS, and Slack.
 
 *Note:* Dynamic schema support is currently not implemented.  It may be implemented in a future release.
@@ -351,7 +350,36 @@ See src/test/resources/__bcon__development__exclamation_labs__scim2.properties f
        </td>
       </tr>
     </tbody>
-</table>
+</table> 
+
+# 5	Connector Operations
+
+The SCIM2 connector implements the following connId SPI operations: 
+
+* **SchemaOp** - Allows the Connector to describe which types of objects the Connector manages on the target resource. This includes the options supported for each type of object.
+* **TestOp** - Allows testing of the resource configuration to verify that the target environment is available (ie. validate the connection to the SCIM2 target system).
+* **SearchOp** - Allows the connector to search the SCIM2 target system for resource objects (most commonly users and groups).
+* **CreateOp** - Allows the connector to create SCIM2 Users and Groups.
+* **DeleteOp** - Allows the connector to delete SCIM2 Users and Groups.
+* **UpdateDeltaOp** - Allows the connector to update SCIM2 Users and Groups.  Both PUT (full replacement) and PATCH (partial update) are supported.
+* **DiscoverConfigurationOp** - Allows the connector to suggest configuration values in the user interface at creation time.
+
+
+## Deep Get Explained
+
+**Deep Get** signifies that a separate HTTP GET is required and automatically executed for each individual resource after a GET request for a list of resources (with or without filters or pagination) is executed.  The SCIM2 standard for listing resources has all detail needed, so **deep get** is not needed for SCIM2 connector and should always be set to *false*.
+
+## Deep Import Explained
+
+**Deep Import** signifies that a separate HTTP GET is required and automatically executed for each individual resource after a GET request for a *full list* of resources is executed.  The SCIM2 standard for listing resources has all detail needed, so **deep import** is not needed for SCIM2 connector and should always be set to *false*.
+ 
+
+## Duplicate Record Returns Id Explained
+
+The duplicate record returns Id configuration option is invoked when an HTTP POST request, used to create a record, returns HTTP 409 (Conflict). This typically indicates that the record we are attempting to create already exists. When this option is true the connector will attempt to get the record by name and return the record’s ID value to the caller. In this way a record can be seamlessly imported when it already exists on the target server. Unfortunately the SCIM2 API does not return HTTP 409 and instead returns HTTP 412. Because this is the case the connector will always do a lookup for an existing object type before creating the type.
+
+
+
 
 # References
 

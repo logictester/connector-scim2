@@ -291,7 +291,7 @@ public class Scim2UsersInvocator implements DriverInvocator<Scim2Driver, Scim2Us
         if (response != null && data.getResponseStatusCode() == 200)
         {
             userList = response.getResources();
-            if ( userList != null && userList.size() > 0 ) {
+            if ( userList != null && !userList.isEmpty() && paginator.hasPagination()) {
                 updatePaginator(paginator, userList.size(), response.getTotalResults(), response.getItemsPerPage());
             } else {
                 paginator.setNoMoreResults(true);

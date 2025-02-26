@@ -21,6 +21,9 @@ import java.util.Map;
     configurationClass = Scim2Configuration.class)
 public class Scim2Connector extends BaseFullAccessConnector<Scim2Configuration> implements DiscoverConfigurationOp{
 
+  public static final String USER_OBJECT_CLASS = "Scim2User";
+  public static final String GROUP_OBJECT_CLASS = "Scim2Group";
+
   public Scim2Connector() {
     super(Scim2Configuration.class);
     setAuthenticator((Authenticator) new DirectAccessTokenAuthenticator());

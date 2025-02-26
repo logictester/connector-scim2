@@ -34,7 +34,7 @@ public class Scim2ConnectorApiIntegrationTest
   private static final String idTestGroup      = "S07H5SNR7U5";
   private static final String idScim2Group     = "S07H28BETDL";
 
-  protected String composeComplexType(String value, String type, String display, Boolean primary){
+  static String composeComplexType(String value, String type, String display, Boolean primary){
     StringJoiner joiner = new StringJoiner(",", "{", "}");
     if ( value != null && value.length() > 0 ) {
       joiner.add(String.format("\"value\":\"%s\"", value));

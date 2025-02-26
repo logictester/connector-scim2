@@ -89,7 +89,7 @@ public class Scim2GroupsInvocator implements DriverInvocator<Scim2Driver, Scim2G
     if ( response != null && data.getResponseStatusCode() == 200 )
     {
       groupList = response.getResources();
-      if ( groupList != null && groupList.size() > 0 )
+      if ( groupList != null && !groupList.isEmpty() && paginator.hasPagination())
       {
         Scim2UsersInvocator.updatePaginator(paginator, groupList.size(), response.getTotalResults(), response.getItemsPerPage());
       }
