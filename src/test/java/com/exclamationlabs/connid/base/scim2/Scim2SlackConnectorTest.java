@@ -1,6 +1,7 @@
+package com.exclamationlabs.connid.base.scim2;
+
 import com.exclamationlabs.connid.base.connector.test.util.ConnectorMockRestTest;
 import com.exclamationlabs.connid.base.connector.test.util.ConnectorTestUtils;
-import com.exclamationlabs.connid.base.scim2.Scim2Connector;
 import com.exclamationlabs.connid.base.scim2.configuration.Scim2Configuration;
 import com.exclamationlabs.connid.base.scim2.driver.rest.Scim2Driver;
 import org.apache.commons.lang3.StringUtils;
@@ -81,7 +82,7 @@ public class Scim2SlackConnectorTest extends ConnectorMockRestTest {
                   "      ]\n" +
                   "    }";;
 
-  private Scim2Connector connector;
+  protected Scim2Connector connector;
 
   @BeforeEach
   public void setup() {

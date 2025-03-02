@@ -378,8 +378,233 @@ The SCIM2 connector implements the following connId SPI operations:
 
 The duplicate record returns Id configuration option is invoked when an HTTP POST request, used to create a record, returns HTTP 409 (Conflict). This typically indicates that the record we are attempting to create already exists. When this option is true the connector will attempt to get the record by name and return the record’s ID value to the caller. In this way a record can be seamlessly imported when it already exists on the target server. Unfortunately the SCIM2 API does not return HTTP 409 and instead returns HTTP 412. Because this is the case the connector will always do a lookup for an existing object type before creating the type.
 
+# 6 Connector Schema
+
+The SCIM2 connector supports User and Group objects.  The full schemas for these objects, and for all complex types can be found in the `schema_doc` directory of this project.
+
+## SCIM2User Object
+
+<table style="border: 1px black;">
+	<thead style="text-align: left">
+		<tr>
+			<th>name</th>
+			<th>type</th>
+			<th>description</th>
+		</tr>
+	</thead>
+	<tbody style="vertical-align: top">
+		<tr>
+			<td>userName</td>
+			<td>string</td>
+			<td>Unique identifier for the User, typically used by the user to directly authenticate to the service provider. Each User MUST include a non-empty userName value. This identifier MUST be unique across the service provider's entire set of Users. REQUIRED.</td>
+		</tr>
+		<tr>
+			<td>name</td>
+			<td>complex</td>
+			<td>The components of the user's real name. Providers MAY return just the full name as a single string in the formatted sub-attribute, or they MAY return just the individual component attributes using the other sub-attributes, or they MAY return both. If both variants are returned, they SHOULD be describing the same name, with the formatted name indicating how the component attributes should be combined.</td>
+		</tr>
+		<tr>
+			<td>displayName</td>
+			<td>string</td>
+			<td>The name of the User, suitable for display to end-users. The name SHOULD be the full name of the User being described, if known.</td>
+		</tr>
+		<tr>
+			<td>nickName</td>
+			<td>string</td>
+			<td>The casual way to address the user in real life, e.g., 'Bob' or 'Bobby' instead of 'Robert'. This attribute SHOULD NOT be used to represent a User's username (e.g., 'bjensen' or 'mpepperidge').</td>
+		</tr>
+		<tr>
+			<td>profileUrl</td>
+			<td>reference</td>
+			<td>A fully qualified URL pointing to a page representing the User's online profile.</td>
+		</tr>
+		<tr>
+			<td>title</td>
+			<td>string</td>
+			<td>The user's title, such as "Vice President."</td>
+		</tr>
+		<tr>
+			<td>userType</td>
+			<td>string</td>
+			<td>Used to identify the relationship between the organization and the user. Typical values used might be 'Contractor', 'Employee', 'Intern', 'Temp', 'External', and 'Unknown', but any value may be used.</td>
+		</tr>
+		<tr>
+			<td>preferredLanguage</td>
+			<td>string</td>
+			<td>Indicates the User's preferred written or spoken language. Generally used for selecting a localized user interface; e.g., 'en_US' specifies the language English and country US.</td>
+		</tr>
+		<tr>
+			<td>locale</td>
+			<td>string</td>
+			<td>Used to indicate the User's default location for purposes of localizing items such as currency, date time format, or numerical representations.</td>
+		</tr>
+		<tr>
+			<td>timezone</td>
+			<td>string</td>
+			<td>The User's time zone in the 'Olson' time zone database format, e.g., 'America/Los_Angeles'.</td>
+		</tr>
+		<tr>
+			<td>active</td>
+			<td>boolean</td>
+			<td>A Boolean value indicating the User's administrative status.</td>
+		</tr>
+		<tr>
+			<td>password</td>
+			<td>string</td>
+			<td>The User's cleartext password. This attribute is intended to be used as a means to specify an initial password when creating a new User or to reset an existing User's password.</td>
+		</tr>
+		<tr>
+			<td>emails</td>
+			<td>complex</td>
+			<td>Email addresses for the user. The value SHOULD be canonicalized by the service provider, e.g., 'bjensen@example.com' instead of 'bjensen@EXAMPLE.COM'. Canonical type values of 'work', 'home', and 'other'.</td>
+		</tr>
+		<tr>
+			<td>phoneNumbers</td>
+			<td>complex</td>
+			<td>Phone numbers for the User. The value SHOULD be canonicalized by the service provider according to the format specified in RFC 3966, e.g., 'tel:+1-201-555-0123'. Canonical type values of 'work', 'home', 'mobile', 'fax', 'pager', and 'other'.</td>
+		</tr>
+		<tr>
+			<td>ims</td>
+			<td>complex</td>
+			<td>Instant messaging addresses for the User.</td>
+		</tr>
+		<tr>
+			<td>photos</td>
+			<td>complex</td>
+			<td>URLs of photos of the User.</td>
+		</tr>
+		<tr>
+			<td>addresses</td>
+			<td>complex</td>
+			<td>A physical mailing address for this User. Canonical type values of 'work', 'home', and 'other'. This attribute is a complex type with the following sub-attributes.</td>
+		</tr>
+		<tr>
+			<td>groups</td>
+			<td>complex</td>
+			<td>A list of groups to which the user belongs, either through direct membership, through nested groups, or dynamically calculated.</td>
+		</tr>
+		<tr>
+			<td>entitlements</td>
+			<td>complex</td>
+			<td>A list of entitlements for the User that represent a thing the User has.</td>
+		</tr>
+		<tr>
+			<td>roles</td>
+			<td>complex</td>
+			<td>A list of roles for the User that collectively represent who the User is, e.g., 'Student', 'Faculty'.</td>
+		</tr>
+		<tr>
+			<td>x509Certificates</td>
+			<td>complex</td>
+			<td>A list of certificates issued to the User.</td>
+		</tr>
+	</tbody>
+</table>
+
+* ConnId UID -> SCIM2 id
+* ConnId Name -> SCIM2 userName
+
+## SCIM2User Object (Slack)
+
+In addition to all of the above fields, the SCIM2User object for Slack also includes additional fields
+(per `urn:ietf:params:scim:schemas:extension:slack:guest:2.0:User` schema):
+
+<table style="border: 1px black;">
+	<thead style="border: 1px black;">
+		<tr>
+			<th>name</th>
+			<th>type</th>
+			<th>description</th>
+		</tr>
+	</thead>
+	<tbody style="vertical-align: top">
+		<tr>
+			<td>guestInfo</td>
+			<td>complex</td>
+			<td>Guest information for the user
+                <h4>Elements:</h4>
+                <ul>
+                    <li>channels (list of Slack channels user belongs to (value/display fields for each)</li>
+                    <li>expiration</li>
+                    <li>type</li>
+                </ul>
+            </td>
+		</tr>
+		<tr>
+			<td>profileInfo</td>
+			<td>complex</td>
+			<td>Profile information for the user
+                <h4>Elements:</h4>
+                <ul>
+                    <li>startDate</li>
+                </ul>
+            </td>
+		</tr>
+	</tbody>
+</table>
 
 
+## SCIM2Group Object
+
+<table style="border: 1px black;">
+	<thead style="border: 1px black;">
+		<tr>
+			<th>name</th>
+			<th>type</th>
+			<th>description</th>
+		</tr>
+	</thead>
+	<tbody style="vertical-align: top">
+		<tr>
+			<td>value</td>
+			<td>string</td>
+			<td>The identifier of the User's group.</td>
+		</tr>
+		<tr>
+			<td>$ref</td>
+			<td>reference</td>
+			<td>The URI of the corresponding 'Group' resource to which the user belongs.</td>
+		</tr>
+		<tr>
+			<td>display</td>
+			<td>string</td>
+			<td>A human-readable name, primarily used for display purposes.  READ-ONLY.</td>
+		</tr>
+		<tr>
+			<td>type</td>
+			<td>string</td>
+			<td>A label indicating the attribute's function, e.g., 'direct' or 'indirect'.</td>
+		</tr>
+	</tbody>
+</table>
+
+* ConnId UID -> SCIM2 id
+* ConnId Name -> SCIM2 displayName
+
+# 7 Connector Query Capabilities
+
+The SCIM2 Connector supports the following Query Operations
+
+
+## SCIM2User 
+
+* Get User by id
+* Get User by Name (userName)
+* Get list of Users using pagination (page number and page size)
+* Get all Users
+* Create a new user (id is generated by the SCIM2 server and returned)
+* Update a user by id (full replacement)
+* Delete a user by id 
+
+## SCIM2Group 
+
+* Get Group by id
+* Get Group by name (displayName)
+* Get list of Groups using pagination (page number and page size)
+* Get all Groups
+* Create a new Group (id is generated by the SCIM2 server and returned)
+* Update a Group by id (full replacement)
+* Delete a Group by id
 
 # References
 

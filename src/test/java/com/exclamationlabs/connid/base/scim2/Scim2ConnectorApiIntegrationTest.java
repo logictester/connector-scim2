@@ -1,8 +1,9 @@
+package com.exclamationlabs.connid.base.scim2;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.exclamationlabs.connid.base.connector.configuration.ConfigurationReader;
 import com.exclamationlabs.connid.base.connector.test.ApiIntegrationTest;
-import com.exclamationlabs.connid.base.scim2.Scim2Connector;
 import com.exclamationlabs.connid.base.scim2.attribute.Scim2GroupAttribute;
 import com.exclamationlabs.connid.base.scim2.configuration.Scim2Configuration;
 
