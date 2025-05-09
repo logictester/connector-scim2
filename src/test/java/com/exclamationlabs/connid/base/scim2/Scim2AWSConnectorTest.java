@@ -3,6 +3,7 @@ package com.exclamationlabs.connid.base.scim2;
 import com.exclamationlabs.connid.base.scim2.configuration.Scim2Configuration;
 import com.exclamationlabs.connid.base.scim2.driver.rest.Scim2Driver;
 import org.apache.http.client.HttpClient;
+import org.identityconnectors.common.security.GuardedString;
 import org.identityconnectors.framework.spi.Configuration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +34,7 @@ public class Scim2AWSConnectorTest extends Scim2SlackConnectorTest {
     configuration.setCurrentToken("token");
     configuration.setEnableSlackSchema(false);
     configuration.setEnableAWSSchema(true);
-    configuration.setToken(configuration.getCurrentToken());
+    configuration.setToken(new GuardedString(configuration.getCurrentToken().toCharArray()));
     connector.init(configuration);
   }
 

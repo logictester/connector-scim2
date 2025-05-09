@@ -6,6 +6,7 @@ import com.exclamationlabs.connid.base.scim2.configuration.Scim2Configuration;
 import com.exclamationlabs.connid.base.scim2.driver.rest.Scim2Driver;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
+import org.identityconnectors.common.security.GuardedString;
 import org.identityconnectors.framework.common.exceptions.ConnectorException;
 import org.identityconnectors.framework.common.objects.*;
 import org.identityconnectors.framework.common.objects.filter.EqualsFilter;
@@ -105,7 +106,7 @@ public class Scim2SlackConnectorTest extends ConnectorMockRestTest {
     configuration.setServiceUrl("test");
     configuration.setCurrentToken("token");
     configuration.setEnableSlackSchema(true);
-    configuration.setToken(configuration.getCurrentToken());
+    configuration.setToken(new GuardedString(configuration.getCurrentToken().toCharArray()));
     connector.init(configuration);
   }
 

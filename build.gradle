@@ -39,8 +39,8 @@ idea {
 }
 apply plugin: 'com.exclamationlabs.connid.base.config.plugin'
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = '1.11'
+targetCompatibility = '1.11'
 
 def build_version = System.getenv('BUILD_NUMBER') == null ? System.currentTimeMillis() : System.getenv('BUILD_NUMBER')
 project.version="${project_version}-${build_version}"
@@ -68,10 +68,17 @@ dependencies {
     implementation 'net.tirasa.connid:connector-framework-internal:1.5.1.10'
 
     implementation 'commons-codec:commons-codec:1.15'
-
-    implementation "com.exclamationlabs.connid:connector-base:${base_connector_version}-+"
+    implementation files('../current_base.jar')
+    // implementation "com.exclamationlabs.connid:connector-base:${base_connector_version}-+"
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.2.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4'
+
+    // begin dependency section
+    implementation 'jakarta.validation:jakarta.validation-api:3.1.0'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    implementation 'org.glassfish:jakarta.el:4.0.2'
+    implementation 'org.apache.commons:commons-lang3:3.15.0'
+
 
     testImplementation "com.exclamationlabs.connid:connector-base-test-support:${test_connector_version}-+"
 

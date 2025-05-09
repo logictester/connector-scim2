@@ -12,6 +12,12 @@ security:
 custom:
   items:
     required:
+      mode:
+        type: string
+        default: 'Slack'
+        order: 3000
+        display: 'Mode'
+        help: 'The mode for this SCIM2 resource. This is used to define the schema and destination system to integrate with.  This should be a short name such as Slack, AWS, Zoom, etc.'
       enableStandardSchema:
         type: boolean
         default: 'false'

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.List;
-import javax.annotation.Generated;
+//import javax.annotation.Generated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
   "canonicalValues",
   "referenceTypes"
 })
-@Generated("jsonschema2pojo")
+//@Generated("jsonschema2pojo")
 @Data
 @Builder
 @AllArgsConstructor
